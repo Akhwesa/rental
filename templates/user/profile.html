@@ -1,0 +1,112 @@
+{% extends 'partials/base.html' %}
+{% block title %} Profile Page {% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% if request.user.groups.all.0.name == "Landlord" %}
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    Landlord Page
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <span class="h4"> Profile Information </span> 
+                            <a class="btn btn-warning btn-sm  float-right"
+                                href="{% url 'user-change-password' user.id %}"> Change password</a>
+                            <a class="btn btn-info btn-sm float-right"
+                                href="{% url 'user-landlord-update' %}">Edit</a>
+                            <hr>
+                            <table class="table bg-white table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Name</th>
+                                        <td>{{ user.landlord.gender }} {{ user.username }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Email</th>
+                                        <td>{{ user.landlord.mail }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Phone</th>
+                                        <td>{{ user.landlord.phone }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">National ID</th>
+                                        <td>{{ user.landlord.ld_id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Agent</th>
+                                        <td>{{ user.landlord.agent }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% elif request.user.groups.all.0.name == "Agent" %}
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    Agent Page
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <span class="h4"> Profile Information </span> 
+                            <a class="btn btn-warning btn-sm  float-right"
+                                href="{% url 'user-change-password' user.id %}"> Change password</a>
+                            <a class="btn btn-info btn-sm float-right"
+                                href="{% url 'user-agent-update' %}">Edit</a>
+                            <hr>
+                            <table class="table bg-white table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Name</th>
+                                        <td>{{ user.agent.gender }} {{ user.username }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Email</th>
+                                        <td>{{ user.agent.mail }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Phone</th>
+                                        <td>{{ user.agent.phone }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">National ID</th>
+                                        <td>{{ user.agent.agt_id }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{%endif %}
+
+{% endblock %}

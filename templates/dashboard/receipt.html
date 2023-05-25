@@ -1,0 +1,73 @@
+{% extends 'partials/base.html'%}
+{% block title%}Payment receipts Page{% endblock%}
+
+
+{% block content %}
+{% if items %}
+<!--Table-->
+<div class="container" >
+
+
+  {% if request.user.groups.all.0.name == "Landlord" %}
+  <h6 >For all receipts. <a href="{% url 'landlord-receipt' %}"><button class="btn btn-info btn-sm">Download</button></a></h6>
+  {% elif request.user.groups.all.0.name == "Agent" %}
+  <h6 >For all receipts. <a href="{% url 'receipt-excel' %}"> <button class="btn btn-info btn-sm">Download</button></a></h6>
+  {% else %}
+  {% endif %}
+    <div class="row my-2">
+        <div class="col-md-8">
+          
+          <form class="form-inline" role="search" method="POST">
+            {% csrf_token %}
+            <input class="form-control me-2" type="search" placeholder="accountReference" name="search_query" required aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <table class="table bg-white" style="white-space: nowrap;">
+              <thead class="bg-secondary">
+                <tr>
+                    <th>accountReference</th>
+                    <th>paidAmount </th>
+                    <th>paymentDate </th>
+                    <th>transactionId </th>
+                    <th>phoneNumber </th>
+                    <th>fullName</th>
+                    <th>invoiceName</th>
+                    <th>externalReference</th>
+      
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for receipt in items %}
+                    <tr>
+                      <td>{{ receipt.accountReference }}</td>
+                      <td>{{ receipt.paidAmount }}</td>
+                      <td>{{ receipt.paymentDate }}</td>
+                      <td>{{ receipt.transactionId }}</td>
+                      <td>{{ receipt.phoneNumber }}</td>
+                      <td>{{ receipt.fullName }}</td>
+                      <td>{{receipt.invoiceName}}</td>
+                      <td>{{receipt.externalReference}}</td>
+                      
+          
+                    </tr>
+                  {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+  
+  </div>
+{% else %}
+<div class="card-body">
+  <div class="row">
+      <div class="col-md-4">
+          <a class="text-decoration-none text-dark">
+              <div class="card my-card shadow text-center p-3" style="background-color:red;">
+                  <h4>No object Found <i class="fas fa-users"></i></h4>
+                  
+              </div>
+          </a>
+      </div></div></div>
+{% endif %}
+
+{% endblock %}

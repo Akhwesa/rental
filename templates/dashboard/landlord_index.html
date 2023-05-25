@@ -1,0 +1,150 @@
+{% extends 'partials/base.html'%}
+{% block title%}Landlord Dashboard{% endblock%}
+
+{% block content %}
+{% include 'partials/topnav.html' %}
+<div class="container">
+<div class="row ">
+    <div class="col-md-4 my-2">
+        <div class="bg-white">
+            <div class="card-body">
+                <canvas id="myChart1" width="400" height="300"></canvas>
+                <script>
+                    var ctx = document.getElementById('myChart1').getContext('2d');
+                    var myChart1 = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: [{% for unit in counts %} '{{unit.Rent_status}}', {% endfor %}],
+                    datasets: [{
+                        label: 'Rental Status',
+                        data: [{% for item in counts %} {{ item.count}}, {% endfor %}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(180, 6, 128, 1)',
+                            'rgba(180, 6, 52, 1)',
+                            'rgba(242, 220, 17, 1)',
+                            'rgba(217, 112, 20, 1)',
+                            'rgba(38, 245, 20, 1)',
+                            'rgba(245, 20, 211, 1)',
+                            'rgba(245, 20, 20, 1)',
+                            'rgba(39, 242, 235, 1)',
+                            
+                        ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(180, 6, 128, 1)',
+                                'rgba(180, 6, 52, 1)',
+                                'rgba(242, 220, 17, 1)',
+                                'rgba(217, 112, 20, 1)',
+                                'rgba(38, 245, 20, 1)',
+                                'rgba(245, 20, 211, 1)',
+                                'rgba(245, 20, 20, 1)',
+                                'rgba(39, 242, 235, 1)',
+                            ],
+                                borderWidth: 1
+                    }]
+                        },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 my-2">
+        <div class="bg-white">
+            <div class="card-body">
+                <canvas id="myChart" width="400" height="300"></canvas>
+                <script>
+                    var ctx = document.getElementById('myChart').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: [{% for payment in monthly_payments %} '{{payment.month}}',{% endfor %}],
+                    datasets: [{
+                        label: 'payments per Month',
+                        data: [{% for payment in monthly_payments %} {{ payment.total_paid }}, {% endfor %}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(180, 6, 128, 1)',
+                            'rgba(180, 6, 52, 1)',
+                            'rgba(242, 220, 17, 1)',
+                            'rgba(217, 112, 20, 1)',
+                            'rgba(38, 245, 20, 1)',
+                            'rgba(245, 20, 211, 1)',
+                            'rgba(245, 20, 20, 1)',
+                            'rgba(39, 242, 235, 1)',
+                        ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(180, 6, 128, 1)',
+                                'rgba(180, 6, 52, 1)',
+                                'rgba(242, 220, 17, 1)',
+                                'rgba(217, 112, 20, 1)',
+                                'rgba(38, 245, 20, 1)',
+                                'rgba(245, 20, 211, 1)',
+                                'rgba(245, 20, 20, 1)',
+                                'rgba(39, 242, 235, 1)',
+                            ],
+                                borderWidth: 1
+                    }]
+                        },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="card my-2" style="width: 23rem;">
+        <div class="card-header" style="background-color: darkorchid;" >
+          Reports
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Payments Receipts for <span id='month-year'></span>.<a href="{% url 'monthly-receipt' %}"> click</a></li>
+          <li class="list-group-item">Tenants In Arrears .<a href="{% url 'tenant-arrear' %}"> click</a></li>
+          <li class="list-group-item">All House Units.<a href="{% url 'landlord-units' %}"> click</a></li>
+        </ul>
+      </div>
+</div>
+</div>
+<script>
+    const currentDate = new Date();
+    const monthYear = `${currentDate.toLocaleString('default', { month: 'long' })} ${currentDate.getFullYear()}`;
+    document.getElementById('month-year').textContent = monthYear;
+  </script>
+{% endblock %}

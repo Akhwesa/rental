@@ -1,0 +1,48 @@
+{% extends 'partials/base.html'%}
+{% block title%}Payment receipts Page{% endblock%}
+
+
+{% block content %}
+
+<!--Table-->
+<div class="container" >
+  
+    <div class="row my-2">
+        <div class="col-md-8">
+            <table class="table bg-white" style="white-space: nowrap;">
+              <thead class="bg-secondary">
+                <tr>
+                    <th>accountReference</th>
+                    <th>paidAmount </th>
+                    <th>paymentDate </th>
+                    <th>transactionId </th>
+                    <th>phoneNumber </th>
+                    <th>fullName</th>
+                    <th>invoiceName</th>
+                    <th>externalReference</th>
+      
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for receipt in items %}
+                    <tr>
+                      <td>{{ receipt.accountReference }}</td>
+                      <td>{{ receipt.paidAmount }}</td>
+                      <td>{{ receipt.paymentDate }}</td>
+                      <td>{{ receipt.transactionId }}</td>
+                      <td>{{ receipt.phoneNumber }}</td>
+                      <td>{{ receipt.fullName }}</td>
+                      <td>{{receipt.invoiceName}}</td>
+                      <td>{{receipt.externalReference}}</td>
+                      
+          
+                    </tr>
+                  {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+  
+  </div>
+
+{% endblock %}

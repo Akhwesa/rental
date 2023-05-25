@@ -1,0 +1,27 @@
+{% extends 'partials/base.html'%}
+{% block title%}Apartments Page{% endblock%}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container" style="display: grid;
+grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+grid-gap: 1rem;">
+{% for item in landlord_data %}
+<div class="row mt-4">
+<div class="card" style="width: 18rem; ">
+    <div class="card-body">
+      <h5 class="card-title">{{item.Landlord}}</h5>
+      <hr>
+      <ul>
+        <li>Apartments: {{item.apartment_count}}</li>
+        <li>Units: {{item.unit_count}}</li>
+        <li>Tenant(s): {{item.Tenants_count}}</li>
+        <li>Rental Target: {{item.Expected_Amount}}</li>
+      </ul>
+      <a href="{% url 'dashboard-landlord-delete' landlord=item.Landlord.id %}" class="btn btn-warning ">Remove {{item.Landlord}}</a>
+    </div>
+  </div>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'partials/base.html'%}
+{% block title%}Apartments Page{% endblock%}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container" >
+    <div class="row my-4">
+        <div class="col-md-4">
+            {% if messages %}
+            {% for message in messages %}
+            <p class="text-success" {% if message.tags %} {% endif %} >{{ message }}</p>
+            
+            {% endfor %}
+        
+        {% endif %}
+            <div class="border bg-white p-3">
+                <h4>Add New Apartment</h4>
+                <hr>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ add_apartment_form|crispy }}
+                    <input class="btn btn-success btn-block" type="submit" value="Add Apartment">
+                </form>
+            </div>
+        </div>
+    
+    <div class="col-md-3" style="padding-bottom: 5px; padding-top: 1px;">
+        {% for flat in items %}
+        <a class="text-decoration-none text-dark" style="padding: 5px;" href="{% url 'dashboard-apartment' flat.id %}">
+            <div class="card my-card shadow text-center p-2 text-white" style="background-color:darkorchid;" >
+                <h4>{{flat.name}}<i class="fas fa-box"></i></h4>
+
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    
+    </div>
+</div>
+{% endblock %}

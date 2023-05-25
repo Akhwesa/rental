@@ -1,0 +1,62 @@
+{% extends 'partials/base.html'%}
+{% block title%}House Units Page{% endblock%}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!--Table-->
+<div class="container" >
+  <div class="card-body">
+    <div class="row">
+        <div class="col-md-4"> 
+                <div class="card my-card shadow text-center p-3">
+                    <h4>{{apt_name}}<i class="fas fa-users"></i></h4>
+                </div> 
+        </div>
+    </div>
+  </div> 
+  
+    <div class="row my-2">
+        <div class="col-md-8">
+          <form class="form-inline" role="search" method="POST">
+            {% csrf_token %}
+            <input class="form-control me-2" type="search" placeholder="Door No" name="search_query" required aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <table class="table bg-white" style="white-space: nowrap;">
+              <thead class="bg-secondary">
+                <tr>
+                    
+                    <th>Door No: </th>
+                    <th>Tenant Name: </th>
+                    <th>Type </th>
+                    <th>Rent Amount</th>
+                    <th>Rent Status </th>
+                    <th>House Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in items %}
+                    <tr>
+                      <td>{{ item.door_no }}</td>
+                      <td>{{ item.tenant }}</td>
+                      <td>{{ item.type }}</td>
+                      <td>{{ item.rent }}</td>
+                      <td>{{ item.Rent_status }}</td>
+                      <td>{{ item.hse_status }}</td>
+                      <td>
+                        <a class="btn btn-info btn-sm" href="{% url 'dashboard-unit-update' item.id %}">Edit Unit</a>
+                    </td>
+                    </tr>
+                  {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+  
+  </div>
+  <!--End Table-->
+
+
+{% endblock %}

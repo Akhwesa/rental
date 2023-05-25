@@ -1,0 +1,84 @@
+{% extends 'partials/base.html'%}
+{% block title%}House Units List{% endblock%}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% if items %}
+<!--Table-->
+<div class="container" >
+    <div class="row my-4">
+        <div class="col-md-4">
+          {% if messages %}
+        {% for message in messages %}
+        <p class="text-success" {% if message.tags %} {% endif %} >{{ message }}</p>
+        
+        {% endfor %}
+    
+    {% endif %}
+            <div class="border bg-white p-3">
+                <h4>Add House Units</h4>
+                <hr>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ add_unit_form|crispy }}
+                    <input class="btn btn-success btn-block" type="submit" value="Add Unit">
+
+                </form>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <table class="table bg-white" style="white-space: nowrap;">
+              <thead class="bg-secondary">
+                <tr>
+                    <th>Apartment</th>
+                    <th>Door No: </th>
+                    <th>Tenant: </th>
+                    <th>Type </th>
+                    <th>Rent Amount</th>
+                    <th>Rent Status </th>
+                    <th>House Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in items %}
+                    <tr>
+                      <td>{{ item.apartment }}</td>
+                      <td>{{ item.door_no }}</td>
+                      <td>{{ item.tenant }}</td>
+                      <td>{{ item.type }}</td>
+                      <td>{{item.rent}}</td>
+                      <td>{{ item.Rent_status }}</td>
+                      <td>{{ item.hse_status }}</td>
+                      <td>
+                        <a class="btn btn-info btn-sm" href="{% url 'dashboard-unit-update' item.id %}">Edit Unit</a>
+                    </td>
+                    </tr>
+                  {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+  
+  </div>
+  <!--End Table-->
+  {% else %}
+  <div class="container" >
+    <div class="row my-4">
+        <div class="col-md-4">
+          
+            <div class="border bg-white p-3">
+                <h4>Add House Units</h4>
+                <hr>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ add_unit_form|crispy }}
+                    <input class="btn btn-success btn-block" type="submit" value="Add Unit">
+                </form>
+            </div>
+        </div>
+      </div>
+  </div>
+{% endif %}
+
+{% endblock %}

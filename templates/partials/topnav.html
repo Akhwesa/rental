@@ -1,0 +1,270 @@
+{% if request.user.groups.all.0.name == "Landlord" %}
+  <!--Topside-->
+  <div class="container">
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header text-dark" style="background-color: darkorchid">
+                   Statistics 
+                </div>
+                <div class="card-body">
+                    {% if paid >= 60 %}
+                    Payment Target Amount: {{Expected_Amount}}
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" >Current Payment is at {{paid}}%
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar progress-bar-striped bg-success"  style="width:{{paid}}%">{{Paid_Amount}}</div>
+                      </div></li>
+                      <li class="list-group-item" >In Arrears at {{arrears}}%
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar progress-bar-striped bg-danger"  style="width:{{arrears}}%">{{arr}}</div>
+                          </div></li>
+                    </ul>
+                    {% elif paid < 60 %}
+                    Payment Target Amount: {{Expected_Amount}}
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" >Current Payment is at {{paid}}%
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar progress-bar-striped bg-danger"  style="width:{{paid}}%">{{paid}}%</div>
+                      </div></li>
+                      <li class="list-group-item" >In Arrears at {{arrears}}%
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar progress-bar-striped bg-warning"  style="width:{{arrears}}%">{{arrears}}%</div>
+                          </div></li>
+                    </ul>
+                    {% else %}
+                    Payment Target Amount: {{Expected_Amount}}
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" >Current Payment is at {{paid}}%
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar progress-bar-striped bg-info"  style="width:{{paid}}%">{{paid}}%</div>
+                      </div></li>
+                      <li class="list-group-item" >In Arrears at {{arrears}}%
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar progress-bar-striped bg-info"  style="width:{{arrears}}%">{{arrears}}%</div>
+                          </div></li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8" >
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a class="text-decoration-none text-dark" href="{% url 'dashboard-flat' %}">
+                                <div class="card my-card shadow text-center p-3">
+                                    <h4>Apartment(s) <i class="fas fa-users"></i></h4>
+                                    
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a class="text-decoration-none text-dark" href="{% url 'dashboard-paid-record'%}">
+                                <div class="card my-card shadow text-center  p-3">
+                                    <h4>Payment records <i class="fas fa-box"></i></h4>
+                                    
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a class="text-decoration-none text-dark" href="{% url 'dashboard-tenant'%}">
+                                <div class="card my-card shadow text-center p-3">
+                                    <h4>Tenants<i class="fas fa-shipping-fast"></i></h4>  
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pos-f-t">
+                <nav class="navbar navbar-light" style="background-color: darkorchid;"><h4>Table Summary</h4>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                </nav>
+                <div class="collapse " id="navbarToggleExternalContent" >
+                  <div class=" p-2" style="background-color: rgb(187, 185, 185);" >
+                    <table class="table table-hover table-bordered table-sm " style="white-space: nowrap;">
+                        <thead class="text-white" style="background-color: darkorchid">
+                          <tr>
+                              <th>Apartment</th>
+                              <th>Units</th>
+                              <th>Paid Units</th>
+                              <th>Paid</th>
+                              <th>Arrears</th>
+                              <th>Tenants In Arrears</th>   
+                                             
+                            </tr>
+                          </thead>
+                          <tbody>
+                              {% for item in apt_data %}
+                                  <tr>
+                                  <td><a class="btn btn-link" href="#" >{{ item.apartment_name  }}</a></td>
+                                  <td><a class="btn btn-link" href="#">{{ item.unit_count }}</a></td>
+                                  <td><a class="btn btn-link" href="#">{{ item.Paid_Tenants }}</a></td>
+                                  <td><a class="btn btn-link" href="#">{{ item.Paid_Amount }}</a></td>
+                                  <td><a class="btn btn-link" href="#">{{ item.Deficit_Amount }}</a></td>
+                                  <td><a class="btn btn-link" href="#">{{ item.Not_Paid_Tenants }}</a></td>
+                                  </tr>
+                              {% endfor %}                   
+                          </tbody>
+                          </table>
+                  </div>
+                </div>
+                
+              </div>
+        </div>
+    </div>
+</div>
+<!--End Topside-->
+{% elif request.user.groups.all.0.name == "Agent" %}
+<!--Topside-->
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header text-dark" style="background-color: darkorchid">
+                   Statistics 
+                </div>
+                <div class="card-body">
+                    {% if paid >= 60 %}
+                    Payment Target Amount: {{Expected_Amount}}
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" >Current Payment is at {{paid}}%
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar progress-bar-striped bg-success"  style="width:{{paid}}%">{{Paid_Amount}}</div>
+                      </div></li>
+                      <li class="list-group-item" >In Arrears at {{arrears}}%
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar progress-bar-striped bg-danger"  style="width:{{arrears}}%">{{arr}}</div>
+                          </div></li>
+                    </ul>
+                    {% elif paid < 60 %}
+                    Payment Target Amount: {{Expected_Amount}}
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" >Current Payment is at {{paid}}%
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar progress-bar-striped bg-danger"  style="width:{{paid}}%">{{paid}}%</div>
+                      </div></li>
+                      <li class="list-group-item" >In Arrears at {{arrears}}%
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar progress-bar-striped bg-warning"  style="width:{{arrears}}%">{{arrears}}%</div>
+                          </div></li>
+                    </ul>
+                    {% else %}
+                    Payment Target Amount: {{Expected_Amount}}
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" >Current Payment is at {{paid}}%
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar progress-bar-striped bg-info"  style="width:{{paid}}%">{{paid}}%</div>
+                      </div></li>
+                      <li class="list-group-item" >In Arrears at {{arrears}}%
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar progress-bar-striped bg-info"  style="width:{{arrears}}%">{{arrears}}%</div>
+                          </div></li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="pos-f-t">
+                <nav class="navbar navbar-light" style="background-color: darkorchid;"><h4>Print Report</h4>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                </nav>
+                <div class="collapse " id="navbarToggleExternalContent" >
+                  <div style="background-color: rgb(187, 185, 185);" >
+                    <div class="row ">
+                        <div class="card my-2" style="width: 23rem;">
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item">Payments Receipts for <span id='month-year'></span>.<a href="{% url 'monthly-receipt' %}"> click</a></li>
+                              <li class="list-group-item">Tenants In Arrears .<a href="{% url 'tenant-arrear' %}"> click</a></li>
+                              <li class="list-group-item">All House Units.<a href="{% url 'landlord-units' %}"> click</a></li>
+                            </ul>
+                          </div>
+                        
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+        </div>
+        <div class="col-md-8" >
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a class="text-decoration-none text-dark" href="{% url 'dashboard-flat' %}">
+                                <div class="card my-card shadow text-center p-3">
+                                    <h4>Apartment(s) <i class="fas fa-users"></i></h4>
+                                    
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a class="text-decoration-none text-dark" href="{% url 'dashboard-paid-record'%}">
+                                <div class="card my-card shadow text-center p-3">
+                                    <h4>Payment records <i class="fas fa-box"></i></h4>
+                                    
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a class="text-decoration-none text-dark" href="{% url 'dashboard-tenant'%}">
+                                <div class="card my-card shadow text-center p-3">
+                                    <h4>Tenants<i class="fas fa-shipping-fast"></i></h4>  
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <div class="row my-2" >
+        <div class="col-md-6">
+            <table class="table table-hover table-bordered  bg-white" style="white-space: nowrap; ">
+              <thead class="text-white" style="background-color: darkorchid; font-size:x-small;">
+                <tr>
+                    <th>Landlords</th>
+                    <th>Apartments</th>
+                    <th> Units</th>
+                    <th> Tenants</th>
+                    <th>Total Rent</th>
+                    <th>Paid Tenants</th>
+                    <th>Amount Paid</th>
+                    <th>Rent In Arrears</th>
+                    <th>Tenants In Arrears</th>               
+                  </tr>
+                </thead> 
+                <tbody>
+                    {% for item in landlord_data %}
+                        <tr>
+                        <td><a class="btn btn-success btn-sm" href="#" >{{ item.Landlord }}</a></td>
+                        <td><a class="btn btn-link" href="{% url 'dashboard-flat-landlord' landlord=item.Landlord.id %}">{{ item.apartment_count }}</a></td>
+                        <td><a class="btn btn-link" href="{% url 'dashboard-rental-landlord' landlord=item.Landlord.id %}">{{ item.unit_count }}</a></td>
+                        <td><a class="btn btn-link" href="{% url 'dashboard-tenant-landlord' landlord=item.Landlord.id %}">{{ item.Tenants_count }}</a></td>
+                        <td><a class="badge badge-dark  " href="#">{{ item.Expected_Amount }}</a></td>
+                        <td><a class="btn btn-link" href="{% url 'dashboard-paid-tenant' landlord=item.Landlord.id %}">{{ item.Paid_Tenants }}</a></td>
+                        <td><a class="btn btn-link" href="{% url 'dashboard-receipt-landlord' landlord=item.Landlord.id %}">{{ item.Paid_Amount }}</a></td>
+                        <td><a class="btn btn-link" href="{% url 'dashboard-tenant-arrears' landlord=item.Landlord.id %}">{{ item.Deficit_Amount }}</a></td>
+                        <td><a class="btn btn-link" href="{% url 'dashboard-tenant-arrears' landlord=item.Landlord.id %}">{{ item.Not_Paid_Tenants }}</a></td>
+                        </tr>
+                    {% endfor %}                   
+                </tbody>
+                </table>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+<!--End Topside-->
+{% else %}
+
+{% endif %}
+
+<script>
+    const currentDate = new Date();
+    const monthYear = `${currentDate.toLocaleString('default', { month: 'long' })} ${currentDate.getFullYear()}`;
+    document.getElementById('month-year').textContent = monthYear;
+  </script>
